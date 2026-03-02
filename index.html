@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Life</title>
+  <style>
+    body {
+      background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAco3zQP3vNvNJRS2CJ5hCdFv6QNrEv7KQ4w&s");
+      background-size: cover;
+      background-repeat: repeat;
+      background-attachment: fixed;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      margin: 20px;
+      color: #333; 
+      text-align: center;
+      text-decoration: underline;
+    }
+
+    p {
+      font-family: 'Times New Roman', serif;
+      margin: 20px;
+      font-size: 26px;
+      color: #092a70;
+    }
+
+    ul {
+      font-family: 'Georgia', serif;
+      margin: 20px;
+      font-size: 22px;
+      color: #4b0082;
+      list-style-type: square;
+    }
+
+    ol {
+      font-family: 'Times New Roman', serif;
+      margin: 20px;
+      font-size: 26px;
+      color: #4b0082;
+    }
+
+    .one {
+      font-family: 'Verdana', sans-serif;
+      font-size: 18px;
+      color: #006400;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    form ol {
+      list-style: none;
+      padding: 0;
+    }
+
+    form li {
+      margin-bottom: 20px;
+    }
+
+    form p.one {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+
+    input[type="radio"] {
+      margin-right: 8px;
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #4CAF50, #2e7d32);
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    input[type="submit"]:hover {
+      background: linear-gradient(135deg, #43a047, #1b5e20);
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+      display: block;
+    }
+  </style>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('success') === '1') {
+    alert("Thank you! Your feedback has been received successfully.");
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('feedbackForm');
+
+  const fields = {
+    name: document.getElementById('name'),
+    email: document.getElementById('email'),
+    message: document.getElementById('message'),
+    age: document.getElementById('age'),
+    location: document.getElementById('location'),
+    gender: document.getElementById('gender'),
+    // ADDED: Contact field
+    contact: document.getElementById('contact'), 
+  };
+
+  const errors = {
+    name: document.getElementById('nameError'),
+    email: document.getElementById('emailError'),
+    message: document.getElementById('messageError'),
+    age: document.getElementById('ageError'),
+    location: document.getElementById('locationError'),
+    gender: document.getElementById('genderError'),
+    preference: document.getElementById('preferenceError'),
+    // ADDED: Contact error display
+    contact: document.getElementById('contactError')
+  };
+
+  function validate() {
+    let ok = true;
+
+    // ... (Existing Name, Email, Message, Age, Location, Gender, Preference validation remains here) ...
+
+    // Name
+    if (!fields.name.value.trim()) {
+      errors.name.textContent = 'Please enter your name.';
+      ok = false;
+    } else {
+      errors.name.textContent = '';
+    }
+
+    // Email
+    const emailVal = fields.email.value.trim();
+    if (!emailVal) {
+      errors.email.textContent = 'Please enter your email.';
+      ok = false;
+    } else if (!/^\S+@\S+\.\S+$/.test(emailVal)) {
+      errors.email.textContent = 'Please enter a valid email address.';
+      ok = false;
+    } else {
+      errors.email.textContent = '';
+    }
+
+    // Message
+    if (!fields.message.value.trim()) {
+      errors.message.textContent = 'Please enter a message.';
+      ok = false;
+    } else {
+      errors.message.textContent = '';
+    }
+
+    // Age
+    const ageVal = fields.age.value;
+    const ageNum = Number(ageVal);
+    if (!ageVal) {
+      errors.age.textContent = 'Please enter your age.';
+      ok = false;
+    } else if (!Number.isInteger(ageNum) || ageNum < 1 || ageNum > 120) {
+      errors.age.textContent = 'Please enter a valid age between 1 and 120.';
+      ok = false;
+    } else {
+      errors.age.textContent = '';
+    }
+    
+    // ADDED: Contact Number Validation
+    const contactVal = fields.contact.value.trim();
+    if (!contactVal) {
+      errors.contact.textContent = 'Please enter your contact number.';
+      ok = false;
+    } else if (!/^\d{10,15}$/.test(contactVal.replace(/[\s-()]/g, ''))) {
+      // Basic check: must be between 10 and 15 digits (after removing common delimiters like spaces, hyphens, and parentheses)
+      errors.contact.textContent = 'Please enter a valid contact number (10-15 digits).';
+      ok = false;
+    } else {
+      errors.contact.textContent = '';
+    }
+
+    // Location
+    if (!fields.location.value) {
+      errors.location.textContent = 'Please select your location.';
+      ok = false;
+    } else {
+      errors.location.textContent = '';
+    }
+
+    // Gender
+    if (!fields.gender.value) {
+      errors.gender.textContent = 'Please select a gender.';
+      ok = false;
+    } else {
+      errors.gender.textContent = '';
+    }
+
+    // Preference (radio)
+    const pref = form.querySelector('input[name="preference"]:checked');
+    if (!pref) {
+      errors.preference.textContent = 'Please select like or dislike.';
+      ok = false;
+    } else {
+      errors.preference.textContent = '';
+    }
+
+    return ok;
+  }
+
+  form.addEventListener('submit', function (e) {
+    if (!validate()) {
+      e.preventDefault(); // only stop submission if validation fails
+    }
+  });
+});
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault(); // stop normal submission
+
+  if (!validate()) return;
+
+  const formData = {
+    name: fields.name.value.trim(),
+    email: fields.email.value.trim(),
+    message: fields.message.value.trim(),
+    age: fields.age.value.trim(),
+    contact: fields.contact.value.trim(),
+    location: fields.location.value,
+    gender: fields.gender.value,
+    preference: form.querySelector('input[name="preference"]:checked').value,
+    time: new Date().toLocaleString()
+  };
+
+  // Save in localStorage
+  let allFeedback = JSON.parse(localStorage.getItem("feedbackData")) || [];
+  allFeedback.push(formData);
+  localStorage.setItem("feedbackData", JSON.stringify(allFeedback));
+
+  // Create downloadable text file
+  const textContent = `
+Time: ${formData.time}
+Name: ${formData.name}
+Email: ${formData.email}
+Message: ${formData.message}
+Age: ${formData.age}
+Contact: ${formData.contact}
+Location: ${formData.location}
+Gender: ${formData.gender}
+Preference: ${formData.preference}
+-----------------------------
+`;
+
+  const blob = new Blob([textContent], { type: "text/plain" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "feedback.txt";
+  link.click();
+
+  alert("Thank you! Your feedback has been saved locally.");
+
+  form.reset();
+});
+</script>
+</head>
+<body>
+  <h1>My Life</h1>
+  <p>Hello! My name is Abhinav, and I am excited to share a little bit about my life with you.</p>
+  <p>I was born in a small town of Uttar Pradesh and grew up surrounded by nature.</p>
+  <p>My childhood was filled with adventures, exploring the outdoors, and spending time with family and friends.</p>
+
+  <ul>
+    <li><strong>Hobbies:</strong> I enjoy reading, coding, doing mathematics and playing video games and cricket.</li>
+    <li><strong>Favorite Food:</strong> I love lithi chokha and paneer biryani.</li>
+    <li><strong>Dream Job:</strong> My dream job is to become an IAS officer.</li>
+    <li><strong>Travel Destinations:</strong> I would love to visit Japan and Ayodhya someday.</li>
+    <li><strong>Friends:</strong> I have many wonderful friends who support and inspire me. They are:</li>
+    <ol>
+      <li>Taha Hussain</li>
+      <li>Jeswanth</li>
+      <li>Sulemaan</li>
+      <li>Charan</li>
+    </ol>
+  </ul>
+
+  <p>Thank you for taking the time to learn a bit about me. I hope you enjoyed it!</p>
+  <p>Feel free to reach out if you want to know more about my interests or experiences.</p>
+  <p>Have a great day!</p>
+
+  <form id="feedbackForm">
+    <ol>
+      <li>
+        <p class="one">Enter your name:</p>
+        <input type="text" id="name" name="NAME" maxlength="50">
+        <span id="nameError" class="error"></span>
+      </li>
+      <li>
+        <p class="one">Enter your email:</p>
+        <input type="email" id="email" name="EMAIL" maxlength="50">
+        <span id="emailError" class="error"></span>
+      </li>
+      <li>
+        <p class="one">Enter your message:</p>
+        <textarea id="message" name="MESSAGE" maxlength="300"></textarea>
+        <span id="messageError" class="error"></span>
+      </li>
+            <li>
+        <p class="one">Enter your age:</p>
+        <input type="number" id="age" name="age" min="1" max="120">
+        <span id="ageError" class="error"></span>
+      </li>
+      <li>
+  <p class="one">Enter your contact number:</p>
+        <input type="text" id="contact" name="CONTACT" maxlength="15">
+        <span id="contactError" class="error"></span>
+      </li>
+      <li>
+        <p class="one">Select your location:</p>
+<select id="location" name="location">
+  <option value="" disabled selected>-- Select your location --</option>
+  <option value="delhi">Delhi</option>
+  <option value="mumbai">Mumbai</option>
+  <option value="bangalore">Bangalore</option>
+  <option value="hyderabad">Hyderabad</option>
+</select>
+        <span id="locationError" class="error"></span>
+      </li>
+      <li>
+        <p class="one">Select your gender:</p>
+        <select id="gender" name="gender">
+  <option value="" disabled selected>-- Select your gender --</option>
+  <option value="male">Male</option>
+  <option value="female">Female</option>
+  <option value="other">Other</option>
+  <option value="prefer not to say">Prefer not to say</option>
+</select>
+        <span id="genderError" class="error"></span>
+      </li>
+      <li>
+        <p class="one">Do you like this page?</p>
+        <input type="radio" name="preference" value="like"> Like
+        <input type="radio" name="preference" value="dislike"> Dislike
+        <span id="preferenceError" class="error"></span>
+      </li>
+    </ol>
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>

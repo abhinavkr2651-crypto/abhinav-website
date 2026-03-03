@@ -1,381 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Life</title>
-  <style>
-    body {
-      background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAco3zQP3vNvNJRS2CJ5hCdFv6QNrEv7KQ4w&s");
-      background-size: cover;
-      background-repeat: repeat;
-      background-attachment: fixed;
-      font-family: Arial, sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7 Wonders of the World</title>
 
-    h1 {
-      margin: 20px;
-      color: #333; 
-      text-align: center;
-      text-decoration: underline;
-    }
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #141e30, #243b55);
+    color: white;
+}
 
-    p {
-      font-family: 'Times New Roman', serif;
-      margin: 20px;
-      font-size: 26px;
-      color: #092a70;
-    }
+nav {
+    background: rgba(0,0,0,0.6);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(8px);
+}
 
-    ul {
-      font-family: 'Georgia', serif;
-      margin: 20px;
-      font-size: 22px;
-      color: #4b0082;
-      list-style-type: square;
-    }
+nav h2 { margin: 0; }
 
-    ol {
-      font-family: 'Times New Roman', serif;
-      margin: 20px;
-      font-size: 26px;
-      color: #4b0082;
-    }
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
 
-    .one {
-      font-family: 'Verdana', sans-serif;
-      font-size: 18px;
-      color: #006400;
-    }
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    transition: 0.3s;
+}
 
-    form {
-      max-width: 500px;
-      margin: 40px auto;
-      padding: 25px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    }
+nav ul li a:hover {
+    color: #00f7ff;
+}
 
-    form ol {
-      list-style: none;
-      padding: 0;
-    }
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+}
 
-    form li {
-      margin-bottom: 20px;
-    }
+.hero h1 {
+    font-size: 45px;
+}
 
-    form p.one {
-      font-weight: bold;
-      margin-bottom: 8px;
-      color: #333;
-    }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 40px;
+}
 
-    input[type="text"],
-    input[type="email"],
-    input[type="number"],
-    select,
-    textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
-      transition: border-color 0.3s;
-    }
+.card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.4s, box-shadow 0.4s;
+}
 
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    input[type="number"]:focus,
-    select:focus,
-    textarea:focus {
-      border-color: #4CAF50;
-      outline: none;
-    }
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
 
-    input[type="radio"] {
-      margin-right: 8px;
-    }
+.card-content {
+    padding: 20px;
+    text-align: center;
+}
 
-    input[type="submit"] {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #4CAF50, #2e7d32);
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+.card h3 {
+    margin-bottom: 10px;
+}
 
-    input[type="submit"]:hover {
-      background: linear-gradient(135deg, #43a047, #1b5e20);
-    }
+.card p {
+    font-size: 14px;
+    line-height: 1.5;
+}
 
-    .error {
-      color: red;
-      font-size: 14px;
-      margin-top: 5px;
-      display: block;
-    }
-  </style>
-<script>
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('success') === '1') {
-    alert("Thank you! Your feedback has been received successfully.");
-  }
-  document.addEventListener('DOMContentLoaded', function () {
-  const form = document.getElementById('feedbackForm');
+.card a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 15px;
+    background: #00f7ff;
+    color: black;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
 
-  const fields = {
-    name: document.getElementById('name'),
-    email: document.getElementById('email'),
-    message: document.getElementById('message'),
-    age: document.getElementById('age'),
-    location: document.getElementById('location'),
-    gender: document.getElementById('gender'),
-    // ADDED: Contact field
-    contact: document.getElementById('contact'), 
-  };
+.card a:hover {
+    background: white;
+}
 
-  const errors = {
-    name: document.getElementById('nameError'),
-    email: document.getElementById('emailError'),
-    message: document.getElementById('messageError'),
-    age: document.getElementById('ageError'),
-    location: document.getElementById('locationError'),
-    gender: document.getElementById('genderError'),
-    preference: document.getElementById('preferenceError'),
-    // ADDED: Contact error display
-    contact: document.getElementById('contactError')
-  };
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
 
-  function validate() {
-    let ok = true;
-
-    // ... (Existing Name, Email, Message, Age, Location, Gender, Preference validation remains here) ...
-
-    // Name
-    if (!fields.name.value.trim()) {
-      errors.name.textContent = 'Please enter your name.';
-      ok = false;
-    } else {
-      errors.name.textContent = '';
-    }
-
-    // Email
-    const emailVal = fields.email.value.trim();
-    if (!emailVal) {
-      errors.email.textContent = 'Please enter your email.';
-      ok = false;
-    } else if (!/^\S+@\S+\.\S+$/.test(emailVal)) {
-      errors.email.textContent = 'Please enter a valid email address.';
-      ok = false;
-    } else {
-      errors.email.textContent = '';
-    }
-
-    // Message
-    if (!fields.message.value.trim()) {
-      errors.message.textContent = 'Please enter a message.';
-      ok = false;
-    } else {
-      errors.message.textContent = '';
-    }
-
-    // Age
-    const ageVal = fields.age.value;
-    const ageNum = Number(ageVal);
-    if (!ageVal) {
-      errors.age.textContent = 'Please enter your age.';
-      ok = false;
-    } else if (!Number.isInteger(ageNum) || ageNum < 1 || ageNum > 120) {
-      errors.age.textContent = 'Please enter a valid age between 1 and 120.';
-      ok = false;
-    } else {
-      errors.age.textContent = '';
-    }
-    
-    // ADDED: Contact Number Validation
-    const contactVal = fields.contact.value.trim();
-    if (!contactVal) {
-      errors.contact.textContent = 'Please enter your contact number.';
-      ok = false;
-    } else if (!/^\d{10,15}$/.test(contactVal.replace(/[\s-()]/g, ''))) {
-      // Basic check: must be between 10 and 15 digits (after removing common delimiters like spaces, hyphens, and parentheses)
-      errors.contact.textContent = 'Please enter a valid contact number (10-15 digits).';
-      ok = false;
-    } else {
-      errors.contact.textContent = '';
-    }
-
-    // Location
-    if (!fields.location.value) {
-      errors.location.textContent = 'Please select your location.';
-      ok = false;
-    } else {
-      errors.location.textContent = '';
-    }
-
-    // Gender
-    if (!fields.gender.value) {
-      errors.gender.textContent = 'Please select a gender.';
-      ok = false;
-    } else {
-      errors.gender.textContent = '';
-    }
-
-    // Preference (radio)
-    const pref = form.querySelector('input[name="preference"]:checked');
-    if (!pref) {
-      errors.preference.textContent = 'Please select like or dislike.';
-      ok = false;
-    } else {
-      errors.preference.textContent = '';
-    }
-
-    return ok;
-  }
-
-  form.addEventListener('submit', function (e) {
-    if (!validate()) {
-      e.preventDefault(); // only stop submission if validation fails
-    }
-  });
-});
-
-form.addEventListener('submit', function (e) {
-  e.preventDefault(); // stop normal submission
-
-  if (!validate()) return;
-
-  const formData = {
-    name: fields.name.value.trim(),
-    email: fields.email.value.trim(),
-    message: fields.message.value.trim(),
-    age: fields.age.value.trim(),
-    contact: fields.contact.value.trim(),
-    location: fields.location.value,
-    gender: fields.gender.value,
-    preference: form.querySelector('input[name="preference"]:checked').value,
-    time: new Date().toLocaleString()
-  };
-
-  // Save in localStorage
-  let allFeedback = JSON.parse(localStorage.getItem("feedbackData")) || [];
-  allFeedback.push(formData);
-  localStorage.setItem("feedbackData", JSON.stringify(allFeedback));
-
-  // Create downloadable text file
-  const textContent = `
-Time: ${formData.time}
-Name: ${formData.name}
-Email: ${formData.email}
-Message: ${formData.message}
-Age: ${formData.age}
-Contact: ${formData.contact}
-Location: ${formData.location}
-Gender: ${formData.gender}
-Preference: ${formData.preference}
------------------------------
-`;
-
-  const blob = new Blob([textContent], { type: "text/plain" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = "feedback.txt";
-  link.click();
-
-  alert("Thank you! Your feedback has been saved locally.");
-
-  form.reset();
-});
-</script>
+footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0,0,0,0.6);
+}
+</style>
 </head>
+
 <body>
-  <h1>My Life</h1>
-  <p>Hello! My name is Abhinav, and I am excited to share a little bit about my life with you.</p>
-  <p>I was born in a small town of Uttar Pradesh and grew up surrounded by nature.</p>
-  <p>My childhood was filled with adventures, exploring the outdoors, and spending time with family and friends.</p>
 
-  <ul>
-    <li><strong>Hobbies:</strong> I enjoy reading, coding, doing mathematics and playing video games and cricket.</li>
-    <li><strong>Favorite Food:</strong> I love lithi chokha and paneer biryani.</li>
-    <li><strong>Dream Job:</strong> My dream job is to become an IAS officer.</li>
-    <li><strong>Travel Destinations:</strong> I would love to visit Japan and Ayodhya someday.</li>
-    <li><strong>Friends:</strong> I have many wonderful friends who support and inspire me. They are:</li>
-    <ol>
-      <li>Taha Hussain</li>
-      <li>Jeswanth</li>
-      <li>Sulemaan</li>
-      <li>Charan</li>
-    </ol>
-  </ul>
+<nav>
+    <h2>🌍 7 Wonders</h2>
+    <ul>
+        <li><a href="greatwall.html">Great Wall</a></li>
+        <li><a href="petra.html">Petra</a></li>
+        <li><a href="christ.html">Christ</a></li>
+        <li><a href="machupicchu.html">Machu Picchu</a></li>
+        <li><a href="chichenitza.html">Chichen Itza</a></li>
+        <li><a href="colosseum.html">Colosseum</a></li>
+        <li><a href="tajmahal.html">Taj Mahal</a></li>
+    </ul>
+</nav>
 
-  <p>Thank you for taking the time to learn a bit about me. I hope you enjoyed it!</p>
-  <p>Feel free to reach out if you want to know more about my interests or experiences.</p>
-  <p>Have a great day!</p>
+<div class="hero">
+    <h1>The New 7 Wonders of the World</h1>
+    <p>Explore history, engineering, and culture of humanity's greatest monuments.</p>
+</div>
 
-  <form id="feedbackForm">
-    <ol>
-      <li>
-        <p class="one">Enter your name:</p>
-        <input type="text" id="name" name="NAME" maxlength="50">
-        <span id="nameError" class="error"></span>
-      </li>
-      <li>
-        <p class="one">Enter your email:</p>
-        <input type="email" id="email" name="EMAIL" maxlength="50">
-        <span id="emailError" class="error"></span>
-      </li>
-      <li>
-        <p class="one">Enter your message:</p>
-        <textarea id="message" name="MESSAGE" maxlength="300"></textarea>
-        <span id="messageError" class="error"></span>
-      </li>
-            <li>
-        <p class="one">Enter your age:</p>
-        <input type="number" id="age" name="age" min="1" max="120">
-        <span id="ageError" class="error"></span>
-      </li>
-      <li>
-  <p class="one">Enter your contact number:</p>
-        <input type="text" id="contact" name="CONTACT" maxlength="15">
-        <span id="contactError" class="error"></span>
-      </li>
-      <li>
-        <p class="one">Select your location:</p>
-<select id="location" name="location">
-  <option value="" disabled selected>-- Select your location --</option>
-  <option value="delhi">Delhi</option>
-  <option value="mumbai">Mumbai</option>
-  <option value="bangalore">Bangalore</option>
-  <option value="hyderabad">Hyderabad</option>
-</select>
-        <span id="locationError" class="error"></span>
-      </li>
-      <li>
-        <p class="one">Select your gender:</p>
-        <select id="gender" name="gender">
-  <option value="" disabled selected>-- Select your gender --</option>
-  <option value="male">Male</option>
-  <option value="female">Female</option>
-  <option value="other">Other</option>
-  <option value="prefer not to say">Prefer not to say</option>
-</select>
-        <span id="genderError" class="error"></span>
-      </li>
-      <li>
-        <p class="one">Do you like this page?</p>
-        <input type="radio" name="preference" value="like"> Like
-        <input type="radio" name="preference" value="dislike"> Dislike
-        <span id="preferenceError" class="error"></span>
-      </li>
-    </ol>
-    <input type="submit" value="Submit">
-  </form>
+<div class="grid">
+
+    <div class="card">
+        <img src="images/greatwall.jpg" alt="Great Wall">
+        <div class="card-content">
+            <h3>Great Wall of China</h3>
+            <p>A massive defensive wall built over 2,000 years ago.  
+            It stretches across mountains and deserts to protect ancient China.</p>
+            <a href="greatwall.html">Read More</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="images/petra.jpg" alt="Petra">
+        <div class="card-content">
+            <h3>Petra</h3>
+            <p>An ancient city carved into red sandstone cliffs in Jordan.  
+            It was once a powerful trading center of the Nabataeans.</p>
+            <a href="petra.html">Read More</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="images/christ.jpg" alt="Christ the Redeemer">
+        <div class="card-content">
+            <h3>Christ the Redeemer</h3>
+            <p>A giant statue in Rio de Janeiro overlooking the city.  
+            It symbolizes peace and welcomes visitors worldwide.</p>
+            <a href="christ.html">Read More</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="images/machu.jpg" alt="Machu Picchu">
+        <div class="card-content">
+            <h3>Machu Picchu</h3>
+            <p>An ancient Incan city high in the Andes Mountains.  
+            Known for its advanced stone construction and terraces.</p>
+            <a href="machupicchu.html">Read More</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="images/chichen.jpg" alt="Chichen Itza">
+        <div class="card-content">
+            <h3>Chichen Itza</h3>
+            <p>A famous Mayan city in Mexico with a pyramid of 365 steps.  
+            It shows remarkable knowledge of astronomy.</p>
+            <a href="chichenitza.html">Read More</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="images/colosseum.jpg" alt="Colosseum">
+        <div class="card-content">
+            <h3>Colosseum</h3>
+            <p>An ancient Roman amphitheater built in 80 AD.  
+            It hosted gladiator contests and grand public events.</p>
+            <a href="colosseum.html">Read More</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="images/taj.jpg" alt="Taj Mahal">
+        <div class="card-content">
+            <h3>Taj Mahal</h3>
+            <p>A beautiful white marble monument in India.  
+            Built as a symbol of love by Emperor Shah Jahan.</p>
+            <a href="tajmahal.html">Read More</a>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    Created by Abhinav | Educational Project
+</footer>
+
 </body>
 </html>
